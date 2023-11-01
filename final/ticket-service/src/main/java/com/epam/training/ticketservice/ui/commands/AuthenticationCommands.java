@@ -16,7 +16,7 @@ public class AuthenticationCommands {
 
     @ShellMethod(key = "sign in privileged", value = "You can login with Admin account.")
     public String signIn(String username, String password) {
-        return userService.login(username, password)
+        return userService.login(username, password, User.Role.ADMIN)
                 .map(userDto -> userDto + " is successfully logged in!")
                 .orElse("Login failed due to incorrect credentials");
     }
@@ -32,7 +32,7 @@ public class AuthenticationCommands {
     }
     @ShellMethod(key = "sign in", value = "User login")
     public String login(String username, String password) {
-        return userService.login(username, password)
+        return userService.login(username, password, User.Role.USER)
                 .map(userDto -> userDto.username() + " is successfully logged in!")
                 .orElse("Login failed due to incorrect credentials");
     }

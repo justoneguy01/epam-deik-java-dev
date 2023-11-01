@@ -32,7 +32,7 @@ public class MovieCommands {
     @ShellMethod(key = "update movie", value = "You can update movies with admin privilege.")
     public String updateMovie(String movieTitle, String genre, int length) {
         movieServiceImpl.updateMovie(movieTitle, genre, length);
-        return "Movie updated successfully";
+        return movieTitle + " updated successfully";
     }
 
     @ShellMethodAvailability("isAvailable")
@@ -44,8 +44,11 @@ public class MovieCommands {
 
     // <Film címe> (<műfaj>, <vetítés hossza percben> minutes)
     @ShellMethod(key = "list movies", value = "You can list movies.")
-    public List<Movie> listMovies() {
-        return movieServiceImpl.listMovies();
+    public String listMovies() {
+        List<Movie> movies = movieServiceImpl.listMovies();
+        if (movies.isEmpty()) {
+            return "There are no movies at the moment";
+        }else {return movies.toString();}
     }
 
     private Availability isAvailable() {

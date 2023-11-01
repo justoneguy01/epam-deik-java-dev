@@ -18,12 +18,17 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
     @Override
-    public Optional<UserDTO> login(String username, String password) {
+    public Optional<UserDTO> login(String username, String password, User.Role role) {
         Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
         if (user.isEmpty()) {
             return Optional.empty();
         }
-        loggedInUser = new UserDTO(user.get().getUsername(), user.get().getRole());
+        if (role == user.get().getRole()) {
+            loggedInUser = new UserDTO(user.get().getUsername(), user.get().getRole());
+        }
+        else {
+            return Optional.empty();
+        }
         return describe();
     }
     @Override
