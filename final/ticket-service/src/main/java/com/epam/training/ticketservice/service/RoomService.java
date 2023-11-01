@@ -5,11 +5,11 @@ import com.epam.training.ticketservice.model.Room;
 import java.util.List;
 
 public interface RoomService {
-    void createRoom(String roomName, int chairRow, int chairColumn);
+    String createRoom(String roomName, int chairRow, int chairColumn);
 
-    void updateRoom(String roomName, int chairRow, int chairColumn);
+    String updateRoom(String roomName, int chairRow, int chairColumn);
 
-    void deleteRoom(String roomName);
+    String deleteRoom(String roomName);
 
     List<Room> listRooms();
 }

@@ -1,6 +1,5 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.model.Movie;
 import com.epam.training.ticketservice.model.Room;
 import com.epam.training.ticketservice.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,40 +11,47 @@ import java.util.List;
 public class RoomServiceImpl implements RoomService{
     private final RoomRepository roomRepository;
     @Override
-    public void createRoom(String roomName, int chairRow, int chairColumn) {
-        try {
+    public String createRoom(String roomName, int chairRow, int chairColumn) {
+        if (roomRepository.findByRoomName(roomName).isPresent()) {
             Room room = new Room(roomName, chairRow, chairColumn);
             roomRepository.save(room);
-        }catch (Exception e){
-            throw new IllegalArgumentException("This room already exist.");
+            return roomName + " successfully added";
+        }else {
+            return "This room already exist";
         }
     }
 
     @Override
-    public void updateRoom(String roomName, int chairRow, int chairColumn) {
+    public String updateRoom(String roomName, int chairRow, int chairColumn) {
         if (roomRepository.findByRoomName(roomName).isPresent()) {
             Room room = roomRepository.findByRoomName(roomName).get();
             room.setChairRow(chairRow);
             room.setChairColumn(chairColumn);
             room.setSeats(chairRow*chairColumn);
             roomRepository.save(room);
+            return roomName + " successfully updated";
         } else {
-            throw new IllegalArgumentException("Room not found");
+            return "Room not found";
         }
     }
 
     @Override
-    public void deleteRoom(String roomName) {
+    public String deleteRoom(String roomName) {
         if (roomRepository.findByRoomName(roomName).isPresent()) {
             Room room = roomRepository.findByRoomName(roomName).get();
-            roomRepository.delete(room);
+            return roomName + " successfully deleted";
         } else {
-            throw new IllegalArgumentException("Room not found");
+            return "Room not found";
         }
     }
 
     @Override
     public List<Room> listRooms() {
-        return roomRepository.findAll();
+        List<Room> rooms = roomRepository.findAll();
+        if (rooms == null) {
+            return null;
+        } else {
+            return rooms;
+        }
     }
 }

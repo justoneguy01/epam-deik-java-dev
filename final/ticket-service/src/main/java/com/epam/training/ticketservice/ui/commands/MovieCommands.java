@@ -24,25 +24,20 @@ public class MovieCommands {
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create movie", value = "You can add movies with admin privilege.")
     public String createMovie(String movieTitle, String genre, int length) {
-        movieServiceImpl.createMovie(movieTitle, genre, length);
-        return "Movie added successfully!";
+        return movieServiceImpl.createMovie(movieTitle, genre, length);
     }
-
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "update movie", value = "You can update movies with admin privilege.")
     public String updateMovie(String movieTitle, String genre, int length) {
-        movieServiceImpl.updateMovie(movieTitle, genre, length);
-        return movieTitle + " updated successfully";
+        return movieServiceImpl.updateMovie(movieTitle, genre, length);
     }
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "delete movie", value = "You can delete movies with admin privilege.")
-    public String  deleteMovie(String movieTitle) {
-        movieServiceImpl.deleteMovie(movieTitle);
-        return movieTitle + " deleted successfully";
+    public String deleteMovie(String movieTitle) {
+        return movieServiceImpl.deleteMovie(movieTitle);
     }
 
-    // <Film címe> (<műfaj>, <vetítés hossza percben> minutes)
     @ShellMethod(key = "list movies", value = "You can list movies.")
     public String listMovies() {
         List<Movie> movies = movieServiceImpl.listMovies();

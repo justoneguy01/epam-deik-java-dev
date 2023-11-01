@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MovieService {
-    void createMovie(String movieTitle, String genre, int lengthInMinutes);
+    String createMovie(String movieTitle, String genre, int lengthInMinutes);
 
-    void updateMovie(String movieTitle, String genre, int lengthInMinutes);
+    String updateMovie(String movieTitle, String genre, int lengthInMinutes);
 
-    void deleteMovie(String movieTitle);
+    String deleteMovie(String movieTitle);
 
     List<Movie> listMovies();
 }
