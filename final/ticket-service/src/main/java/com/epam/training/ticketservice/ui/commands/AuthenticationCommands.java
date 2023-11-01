@@ -21,7 +21,7 @@ public class AuthenticationCommands {
                 .orElse("Login failed due to incorrect credentials");
     }
 
-    @ShellMethod(key = "sign up", value = "User registration")
+    @ShellMethod(key = "sign up", value = "You can register a User account")
     public String registerUser(String userName, String password) {
         try {
             userService.registerUser(userName, password);
@@ -33,7 +33,7 @@ public class AuthenticationCommands {
     @ShellMethod(key = "sign in", value = "User login")
     public String login(String username, String password) {
         return userService.login(username, password)
-                .map(userDto -> userDto + " is successfully logged in!")
+                .map(userDto -> userDto.username() + " is successfully logged in!")
                 .orElse("Login failed due to incorrect credentials");
     }
     @ShellMethod(key = "sign out", value = "You can sign out from your account.")

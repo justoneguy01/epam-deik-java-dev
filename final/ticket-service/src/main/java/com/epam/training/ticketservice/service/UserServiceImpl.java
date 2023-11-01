@@ -13,6 +13,11 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private UserDTO loggedInUser = null;
     @Override
+    public void registerUser(String username, String password) {
+        User user = new User(username, password, User.Role.USER);
+        userRepository.save(user);
+    }
+    @Override
     public Optional<UserDTO> login(String username, String password) {
         Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
         if (user.isEmpty()) {
@@ -30,10 +35,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserDTO> describe() {
         return Optional.ofNullable(loggedInUser);
-    }
-    @Override
-    public void registerUser(String username, String password) {
-        User user = new User(username, password, User.Role.USER);
-        userRepository.save(user);
     }
 }
