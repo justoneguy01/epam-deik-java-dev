@@ -1,44 +1,49 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.dto.UserDTO;
 import com.epam.training.ticketservice.model.User;
 import com.epam.training.ticketservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private UserDTO loggedInUser = null;
+    private User loggedInUser = null;
     @Override
-    public void registerUser(String username, String password) {
-        User user = new User(username, password, User.Role.USER);
-        userRepository.save(user);
+    public String signInPrivileged(String username, String password) {
+        Optional<User> adminUser = userRepository.findByUsernameAndPassword(username, password);
+        if (adminUser.isEmpty()) {
+            return "Login failed due to incorrect credentials";
+        }
+        else{
+            loggedInUser = adminUser.get();
+            return "Login success";
+        }
+    }
+
+    @Override
+    public String signOut() {
+        if (loggedInUser == null) {
+            return "You are not signed in";
+        }
+        else{
+            loggedInUser = null;
+            return "Signed out";
+        }
     }
     @Override
-    public Optional<UserDTO> login(String username, String password, User.Role role) {
-        Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
-        if (user.isEmpty()) {
-            return Optional.empty();
+    public String describe() {
+        if (loggedInUser != null)
+        {
+            return "Signed in with privileged account '"+loggedInUser.getUsername()+"'";
         }
-        if (role == user.get().getRole()) {
-            loggedInUser = new UserDTO(user.get().getUsername(), user.get().getRole());
+        else{
+            return "You are not signed in";
         }
-        else {
-            return Optional.empty();
-        }
-        return describe();
     }
-    @Override
-    public Optional<UserDTO> logout() {
-        Optional<UserDTO> previouslyLoggedInUser = describe();
-        loggedInUser = null;
-        return previouslyLoggedInUser;
-    }
-    @Override
-    public Optional<UserDTO> describe() {
-        return Optional.ofNullable(loggedInUser);
+
+    public User getLoggedInUser(){
+        return loggedInUser;
     }
 }

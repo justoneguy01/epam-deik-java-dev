@@ -16,14 +16,13 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public String createMovie(String movieTitle, String genre, int lengthInMinutes) {
         if(movieRepository.findByMovieTitle(movieTitle).isPresent()){
-            return "This movie already exist.";
+            throw new IllegalArgumentException("This movie is already exist!");
         }else{
             Movie movie = new Movie(movieTitle, genre, lengthInMinutes);
             movieRepository.save(movie);
             return movieTitle + " successfully added";
         }
     }
-
     @Override
     public String updateMovie(String movieTitle, String genre, int lengthInMinutes) {
         if (movieRepository.findByMovieTitle(movieTitle).isPresent()) {
@@ -33,7 +32,7 @@ public class MovieServiceImpl implements MovieService {
             movieRepository.save(movie);
             return movieTitle + " successfully updated";
         } else {
-            return "Movie not found";
+            throw new IllegalArgumentException("The "+ movieTitle +" is not found!");
         }
     }
     @Override
@@ -43,15 +42,15 @@ public class MovieServiceImpl implements MovieService {
             movieRepository.delete(movie);
             return movieTitle + " successfully deleted";
         } else {
-            return "Movie not found";
+            throw new IllegalArgumentException("The "+ movieTitle +" is not found!");
         }
     }
 
     @Override
     public List<Movie> listMovies() {
         List<Movie> movies = movieRepository.findAll();
-        if (movies == null) {
-            return null;
+        if (movies.isEmpty()) {
+            return movies;
         } else {
             return movies;
         }

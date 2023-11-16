@@ -13,11 +13,11 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public String createRoom(String roomName, int chairRow, int chairColumn) {
         if (roomRepository.findByRoomName(roomName).isPresent()) {
+            throw new IllegalArgumentException("This room is already exist!");
+        }else {
             Room room = new Room(roomName, chairRow, chairColumn);
             roomRepository.save(room);
             return roomName + " successfully added";
-        }else {
-            return "This room already exist";
         }
     }
 
@@ -31,7 +31,7 @@ public class RoomServiceImpl implements RoomService{
             roomRepository.save(room);
             return roomName + " successfully updated";
         } else {
-            return "Room not found";
+            throw new IllegalArgumentException("The "+ roomName +" is not found!");
         }
     }
 
@@ -39,17 +39,18 @@ public class RoomServiceImpl implements RoomService{
     public String deleteRoom(String roomName) {
         if (roomRepository.findByRoomName(roomName).isPresent()) {
             Room room = roomRepository.findByRoomName(roomName).get();
+            roomRepository.delete(room);
             return roomName + " successfully deleted";
         } else {
-            return "Room not found";
+            throw new IllegalArgumentException("The "+ roomName +" is not found!");
         }
     }
 
     @Override
     public List<Room> listRooms() {
         List<Room> rooms = roomRepository.findAll();
-        if (rooms == null) {
-            return null;
+        if(rooms.isEmpty()) {
+            return rooms;
         } else {
             return rooms;
         }

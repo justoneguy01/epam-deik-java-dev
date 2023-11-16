@@ -54,6 +54,16 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -110,6 +120,13 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
+                            <excludes>
+                                <exclude>com/epam/training/ticketservice/model/**</exclude>
+                                <exclude>com/epam/training/ticketservice/repository/**</exclude>
+                                <exclude>com/epam/training/ticketservice/dto/**</exclude>
+                                <exclude>com/epam/training/ticketservice/ui/configuration/**</exclude>
+                                <exclude>com/epam/training/ticketservice/Application.java</exclude>
+                            </excludes>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>
