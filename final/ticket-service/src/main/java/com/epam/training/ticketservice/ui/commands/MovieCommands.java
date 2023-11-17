@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-
+import org.springframework.shell.standard.ShellMethodAvailability;
 import java.util.List;
 
 @ShellComponent
@@ -17,19 +17,19 @@ public class MovieCommands {
     MovieServiceImpl movieServiceImpl;
     private final UserService userService;
 
-    //@ShellMethodAvailability("isAvailable")
+    @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create movie", value = "You can add movies with admin privilege.")
     public String createMovie(String movieTitle, String genre, int length) {
         return movieServiceImpl.createMovie(movieTitle, genre, length);
     }
 
-    //@ShellMethodAvailability("isAvailable")
+    @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "update movie", value = "You can update movies with admin privilege.")
     public String updateMovie(String movieTitle, String genre, int length) {
         return movieServiceImpl.updateMovie(movieTitle, genre, length);
     }
 
-    //@ShellMethodAvailability("isAvailable")
+    @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "delete movie", value = "You can delete movies with admin privilege.")
     public String deleteMovie(String movieTitle) {
         return movieServiceImpl.deleteMovie(movieTitle);
@@ -50,7 +50,7 @@ public class MovieCommands {
     }
 
     private Availability isAvailable() {
-        if (userService.describe() != null) {
+        if (userService.getLoggedInUser() != null) {
             return Availability.available();
         } else {
             return  Availability.unavailable("You need to sign in as admin");

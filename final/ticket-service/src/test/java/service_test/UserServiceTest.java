@@ -15,7 +15,7 @@ public class UserServiceTest {
     @Test
     void signInPrivilegedWithCorrectCredentialsShouldReturnSuccessMessage() {
         //Given
-        when(userRepository.findByUsernameAndPassword(ADMIN.getUsername(), ADMIN.getPassword())).thenReturn(Optional.of(ADMIN));
+            when(userRepository.findByUsernameAndPassword(ADMIN.getUsername(), ADMIN.getPassword())).thenReturn(Optional.of(ADMIN));
         //When
         String result = underTest.signInPrivileged(ADMIN.getUsername(), ADMIN.getPassword());
         //Then

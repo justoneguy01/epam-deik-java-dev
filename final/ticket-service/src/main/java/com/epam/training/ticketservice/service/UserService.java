@@ -1,5 +1,7 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.model.User;
+
 public interface UserService {
 
     String signInPrivileged(String username, String password);
@@ -7,4 +9,6 @@ public interface UserService {
     String signOut();
 
     String describe();
+
+    User getLoggedInUser();
 }

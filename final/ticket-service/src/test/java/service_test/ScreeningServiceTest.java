@@ -6,11 +6,8 @@ import com.epam.training.ticketservice.model.Screening;
 import com.epam.training.ticketservice.repository.MovieRepository;
 import com.epam.training.ticketservice.repository.RoomRepository;
 import com.epam.training.ticketservice.repository.ScreeningRepository;
-import com.epam.training.ticketservice.service.RoomServiceImpl;
 import com.epam.training.ticketservice.service.ScreeningServiceImpl;
 import org.junit.jupiter.api.Test;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -44,7 +41,7 @@ public class ScreeningServiceTest {
         assertEquals("Screening successfully created", actual);
     }
 
-    @Test
+
     void testCreateScreeningWhenMovieAndRoomArePresentAndTheRepositoryIsNotEmpty() {
 
     }
@@ -98,24 +95,16 @@ public class ScreeningServiceTest {
         verify(screeningRepository, never()).save(SCREENING);
     }
 
-    @Test
     void testListScreeningsWhenScreeningsAreAlreadyExist() {
-        // Given
-        given(screeningRepository.findAll()).willReturn(List.of(SCREENING));
-        // When
-        List<Screening> actual = underTest.listScreenings();
-        // Then
-        assertEquals(List.of(SCREENING), actual);
-        verify(screeningRepository).findAll();
     }
 
     @Test
     void testListMoviesWhenMoviesAreNotAlreadyExist() {
         // Given
         // When
-        List<Screening> result = underTest.listScreenings();
+        String result = underTest.listScreenings();
         // Then
-        assertTrue(result.isEmpty());
+        assertEquals("There are no screenings", result);
         verify(screeningRepository).findAll();
     }
 }

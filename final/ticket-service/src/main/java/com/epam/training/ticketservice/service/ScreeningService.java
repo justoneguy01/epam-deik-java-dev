@@ -11,5 +11,5 @@ public interface ScreeningService {
 
     String deleteScreening(String movieTitle, String roomName, LocalDateTime beginScreening);
 
-    List<Screening> listScreenings();
+    String listScreenings();
 }

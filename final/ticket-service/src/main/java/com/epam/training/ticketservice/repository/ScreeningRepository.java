@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface ScreeningRepository extends JpaRepository<Screening, Integer> {
     Optional<Screening> findByMovieTitleAndRoomNameAndBeginScreening(
             String movieTitle, String roomName, LocalDateTime beginScreening);
+
+    Optional<Screening> findByRoomName(String roomName);
 }

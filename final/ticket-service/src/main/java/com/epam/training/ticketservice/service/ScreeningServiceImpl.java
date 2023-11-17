@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,15 +25,19 @@ public class ScreeningServiceImpl implements ScreeningService {
     public String createScreening(String movieTitle, String roomName, LocalDateTime beginScreening) {
         Optional<Movie> movieOptional = movieRepository.findByMovieTitle(movieTitle);
         Optional<Room> roomOptional = roomRepository.findByRoomName(roomName);
-
-        if (movieOptional.isPresent() && roomOptional.isPresent() && screeningRepository.count() == 0) {
+        Optional<Screening> screeningOptional = screeningRepository.findByRoomName(roomName);
+        if (movieOptional.isPresent() && roomOptional.isPresent() && screeningOptional.isEmpty()) {
             Movie movie = movieOptional.get();
             Room room = roomOptional.get();
             Screening screeningToSave = new Screening(movieTitle, roomName, beginScreening);
             screeningRepository.save(screeningToSave);
             return "Screening successfully created";
 
-        } else if (movieOptional.isPresent() && roomOptional.isPresent() && screeningRepository.count() > 0) {
+        } else if (movieOptional.isEmpty() && roomOptional.isEmpty()) {
+
+            return "The Movie or the Room does not exist";
+
+        } else {
             Movie movie = movieOptional.get();
             Room room = roomOptional.get();
             if (checkHasOverlap(beginScreening, movie, roomName)) {
@@ -44,7 +49,6 @@ public class ScreeningServiceImpl implements ScreeningService {
             screeningRepository.save(screeningToSave);
             return "Screening successfully created";
         }
-        return "The Movie or the Room does not exist";
     }
 
     public boolean checkHasOverlap(LocalDateTime beginScreening, Movie movie, String roomName) {
@@ -71,10 +75,14 @@ public class ScreeningServiceImpl implements ScreeningService {
         boolean hasBreakPeriod = false;
         LocalDateTime endScreening = beginScreening.plusMinutes(movie.getLengthInMinutes());
         for (var screening : screeningList) {
+
+            int currentLengthInMinutes = movieRepository.findByMovieTitle(
+                    screening.getMovieTitle()).get().getLengthInMinutes();
             LocalDateTime iteratorBeginDate = screening.getBeginScreening();
-            LocalDateTime iteratorEndDate = iteratorBeginDate.plusMinutes(movie.getLengthInMinutes());
-            if (beginScreening.plusMinutes(10).isBefore(iteratorEndDate)
-                    && endScreening.plusMinutes(10).isAfter(iteratorBeginDate)) {
+            LocalDateTime iteratorEndDate = iteratorBeginDate.plusMinutes(currentLengthInMinutes);
+            if ((beginScreening.plusMinutes(10).isAfter(iteratorEndDate)
+                    || endScreening.plusMinutes(10).isBefore(iteratorBeginDate))
+                    && beginScreening.isAfter(iteratorEndDate)) {
                 return true;
             }
         }
@@ -95,12 +103,21 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     @Override
-    public List<Screening> listScreenings() {
+    public String listScreenings() {
         List<Screening> screenings = screeningRepository.findAll();
         if (screenings.isEmpty()) {
-            return screenings;
+            return "There are no screenings";
         } else {
-            return screenings;
+            String screeningString = "";
+            for (Screening screening : screenings) {
+                Movie currentMovie = movieRepository.findByMovieTitle(screening.getMovieTitle()).get();
+                Room currentRoom = roomRepository.findByRoomName(screening.getRoomName()).get();
+                screeningString += currentMovie.getMovieTitle() + " (" + currentMovie.getGenre() + ", "
+                        + currentMovie.getLengthInMinutes() + " minutes), screened in room "
+                        + currentRoom.getRoomName() + ", at " + DateTimeFormatter.ofPattern(
+                                "yyyy-MM-dd HH:mm").format(screening.getBeginScreening()) + "\n";
+            }
+            return screeningString;
         }
     }
 }

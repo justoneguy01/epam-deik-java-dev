@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class Screening {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -28,10 +27,5 @@ public class Screening {
         this.movieTitle = movieTitle;
         this.roomName = roomName;
         this.beginScreening = beginScreening;
-    }
-
-    @Override
-    public String toString() {
-        return movieTitle + " " + roomName + " " + beginScreening;
     }
 }
