@@ -7,15 +7,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-
 import java.util.List;
-
 
 @ShellComponent
 @AllArgsConstructor
 public class RoomCommands {
+
     private final UserService userService;
     private final RoomService roomService;
+
     //@ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create room", value = "You can add rooms with admin privilege.")
     public String createRoom(String roomName, int chairRow, int chairColumn) {
@@ -42,14 +42,15 @@ public class RoomCommands {
         List<Room> rooms = roomService.listRooms();
         if (rooms.isEmpty()) {
             return "There are no rooms at the moment";
-        }else {return rooms.toString();}
+        } else {
+            return rooms.toString();
+        }
     }
 
     private Availability isAvailable() {
-        if (userService.describe()!=null){
+        if (userService.describe() != null) {
             return Availability.available();
-        }
-        else{
+        } else {
             return  Availability.unavailable("You need to sign in as admin");
         }
     }

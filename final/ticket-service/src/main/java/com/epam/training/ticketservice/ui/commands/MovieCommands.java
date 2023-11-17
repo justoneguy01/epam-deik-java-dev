@@ -22,6 +22,7 @@ public class MovieCommands {
     public String createMovie(String movieTitle, String genre, int length) {
         return movieServiceImpl.createMovie(movieTitle, genre, length);
     }
+
     //@ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "update movie", value = "You can update movies with admin privilege.")
     public String updateMovie(String movieTitle, String genre, int length) {
@@ -39,20 +40,19 @@ public class MovieCommands {
         List<Movie> movies = movieServiceImpl.listMovies();
         if (movies.isEmpty()) {
             return "There are no movies at the moment";
-        }else {
+        } else {
             String movieString = "";
             for (Movie movie : movies) {
-                movieString += movie.toString()+"\n";
+                movieString += movie.toString() + "\n";
             }
             return movieString;
         }
     }
 
     private Availability isAvailable() {
-        if (userService.describe()!=null){
+        if (userService.describe() != null) {
             return Availability.available();
-        }
-        else{
+        } else {
             return  Availability.unavailable("You need to sign in as admin");
         }
     }

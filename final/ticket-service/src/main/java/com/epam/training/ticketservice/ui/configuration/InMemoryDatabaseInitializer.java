@@ -22,6 +22,7 @@ public class InMemoryDatabaseInitializer {
     private final MovieRepository movieRepository;
     private final RoomRepository roomRepository;
     private final ScreeningRepository screeningRepository;
+
     @PostConstruct
     public void init() {
         User admin = new User("admin", "admin", User.Role.ADMIN);
@@ -31,7 +32,8 @@ public class InMemoryDatabaseInitializer {
         // Room room = new Room("Pedersoli",8,7);
         //roomRepository.save(room);
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        //Screening screening = new Screening("Spirited Away","Pedersoli" , LocalDateTime.parse("2021-03-15 11:00", formatter));
+        //Screening screening = new Screening(
+        // "Spirited Away","Pedersoli" , LocalDateTime.parse("2021-03-15 11:00", formatter));
         //screeningRepository.save(screening);
     }
 }
