@@ -1,7 +1,8 @@
-package com.epam.training.ticketservice.service;
+package com.epam.training.ticketservice.service.implementation;
 
-import com.epam.training.ticketservice.model.Movie;
-import com.epam.training.ticketservice.repository.MovieRepository;
+import com.epam.training.ticketservice.model.entity.Movie;
+import com.epam.training.ticketservice.model.repository.MovieRepository;
+import com.epam.training.ticketservice.service.interfaces.MovieService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
+
     private final MovieRepository movieRepository;
 
     @Override

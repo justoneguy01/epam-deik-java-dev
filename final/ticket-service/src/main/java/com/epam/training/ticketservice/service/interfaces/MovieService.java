@@ -1,9 +1,8 @@
-package com.epam.training.ticketservice.service;
+package com.epam.training.ticketservice.service.interfaces;
 
-import com.epam.training.ticketservice.model.Movie;
+import com.epam.training.ticketservice.model.entity.Movie;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MovieService {
     String createMovie(String movieTitle, String genre, int lengthInMinutes);

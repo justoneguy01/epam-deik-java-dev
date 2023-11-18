@@ -1,8 +1,8 @@
-package service_test;
+package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.model.Movie;
-import com.epam.training.ticketservice.repository.MovieRepository;
-import com.epam.training.ticketservice.service.MovieServiceImpl;
+import com.epam.training.ticketservice.model.entity.Movie;
+import com.epam.training.ticketservice.model.repository.MovieRepository;
+import com.epam.training.ticketservice.service.implementation.MovieServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class MovieServiceTest {
     private final MovieServiceImpl underTest = new MovieServiceImpl(movieRepository);
     private Movie MOVIE = new Movie("Star Wars", "Sci-fi",180);
 
-    @Test // CreateMovie +
+    @Test
     void testCreateMovieWhenMovieIsNotExist() {
         //Given
         //When
@@ -26,7 +26,7 @@ public class MovieServiceTest {
         verify(movieRepository).save(MOVIE);
     }
 
-    @Test // CreateMovie -
+    @Test
     void testCreateMovieWhenMovieIsAlreadyExist() {
         // Given
         given(movieRepository.findByMovieTitle(MOVIE.getMovieTitle())).willReturn(Optional.of(MOVIE));
@@ -36,7 +36,7 @@ public class MovieServiceTest {
         verify(movieRepository, never()).save(MOVIE);
     }
 
-    @Test // UpdateMovie +
+    @Test
     void testUpdateMovieWhenMovieIsAlreadyExist() {
         //Given
         Movie expected = new Movie("Star Wars", "Action", 120);
@@ -47,7 +47,7 @@ public class MovieServiceTest {
         verify(movieRepository).save(expected);
     }
 
-    @Test // UpdateMovie -
+    @Test
     void testUpdateMovieWhenMovieIsNotExist() {
         // Given
         // When
@@ -56,7 +56,7 @@ public class MovieServiceTest {
         verify(movieRepository, never()).save(MOVIE);
     }
 
-    @Test // DeleteMovie +
+    @Test
     void testDeleteMovieWhenMovieIsAlreadyExist() {
         //Given
         given(movieRepository.findByMovieTitle(MOVIE.getMovieTitle())).willReturn(Optional.of(MOVIE));
@@ -66,7 +66,7 @@ public class MovieServiceTest {
         verify(movieRepository).delete(MOVIE);
     }
 
-    @Test // DeleteMovie -
+    @Test
     void testDeleteMovieWhenMovieIsNotExist() {
         // Given
         // When

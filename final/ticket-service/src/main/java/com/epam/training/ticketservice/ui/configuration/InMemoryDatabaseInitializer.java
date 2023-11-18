@@ -1,21 +1,15 @@
 package com.epam.training.ticketservice.ui.configuration;
 
-import com.epam.training.ticketservice.model.Movie;
-import com.epam.training.ticketservice.model.Room;
-import com.epam.training.ticketservice.model.Screening;
-import com.epam.training.ticketservice.model.User;
-import com.epam.training.ticketservice.repository.MovieRepository;
-import com.epam.training.ticketservice.repository.RoomRepository;
-import com.epam.training.ticketservice.repository.ScreeningRepository;
-import com.epam.training.ticketservice.repository.UserRepository;
-import com.epam.training.ticketservice.service.UserService;
-import com.epam.training.ticketservice.service.UserServiceImpl;
+import com.epam.training.ticketservice.model.entity.User;
+import com.epam.training.ticketservice.model.repository.MovieRepository;
+import com.epam.training.ticketservice.model.repository.RoomRepository;
+import com.epam.training.ticketservice.model.repository.ScreeningRepository;
+import com.epam.training.ticketservice.model.repository.UserRepository;
+import com.epam.training.ticketservice.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Component
 @RequiredArgsConstructor

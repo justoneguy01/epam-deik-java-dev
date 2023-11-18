@@ -1,9 +1,8 @@
-package service_test;
+package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.model.Movie;
-import com.epam.training.ticketservice.model.Room;
-import com.epam.training.ticketservice.repository.RoomRepository;
-import com.epam.training.ticketservice.service.RoomServiceImpl;
+import com.epam.training.ticketservice.model.entity.Room;
+import com.epam.training.ticketservice.model.repository.RoomRepository;
+import com.epam.training.ticketservice.service.implementation.RoomServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class RoomServiceTest {
     private final RoomRepository roomRepository = mock(RoomRepository.class);
     private final RoomServiceImpl underTest = new RoomServiceImpl(roomRepository);
     private Room ROOM = new Room("Leonardo DiCaprio", 10,10);
-    @Test // CreateRoom +
+    @Test
     void testCreateRoomWhenRoomIsNotExist() {
         //Given
         //When
@@ -27,7 +26,7 @@ public class RoomServiceTest {
         verify(roomRepository).save(ROOM);
     }
 
-    @Test // CreateRoom -
+    @Test
     void testCreateRoomWhenRoomIsAlreadyExist() {
         // Given
         given(roomRepository.findByRoomName(ROOM.getRoomName())).willReturn(Optional.of(ROOM));
@@ -37,7 +36,7 @@ public class RoomServiceTest {
         verify(roomRepository, never()).save(ROOM);
     }
 
-    @Test // UpdateRoom +
+    @Test
     void testUpdateRoomWhenRoomIsAlreadyExist() {
         //Given
         Room expected = new Room("Leonardo DiCaprio", 9, 9);
@@ -48,7 +47,7 @@ public class RoomServiceTest {
         verify(roomRepository).save(expected);
     }
 
-    @Test // UpdateRoom -
+    @Test
     void testUpdateRoomWhenRoomIsNotExist() {
         // Given
         // When
@@ -57,7 +56,7 @@ public class RoomServiceTest {
         verify(roomRepository, never()).save(ROOM);
     }
 
-    @Test // DeleteRoom +
+    @Test
     void testDeleteRoomWhenRoomIsAlreadyExist() {
         //Given
         given(roomRepository.findByRoomName(ROOM.getRoomName())).willReturn(Optional.of(ROOM));
@@ -67,7 +66,7 @@ public class RoomServiceTest {
         verify(roomRepository).delete(ROOM);
     }
 
-    @Test // DeleteRoom -
+    @Test
     void testDeleteRoomWhenRoomIsNotExist() {
         // Given
         // When

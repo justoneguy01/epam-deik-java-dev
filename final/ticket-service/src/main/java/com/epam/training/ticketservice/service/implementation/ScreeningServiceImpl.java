@@ -1,11 +1,12 @@
-package com.epam.training.ticketservice.service;
+package com.epam.training.ticketservice.service.implementation;
 
-import com.epam.training.ticketservice.model.Movie;
-import com.epam.training.ticketservice.model.Room;
-import com.epam.training.ticketservice.model.Screening;
-import com.epam.training.ticketservice.repository.MovieRepository;
-import com.epam.training.ticketservice.repository.RoomRepository;
-import com.epam.training.ticketservice.repository.ScreeningRepository;
+import com.epam.training.ticketservice.model.entity.Movie;
+import com.epam.training.ticketservice.model.entity.Room;
+import com.epam.training.ticketservice.model.entity.Screening;
+import com.epam.training.ticketservice.model.repository.MovieRepository;
+import com.epam.training.ticketservice.model.repository.RoomRepository;
+import com.epam.training.ticketservice.model.repository.ScreeningRepository;
+import com.epam.training.ticketservice.service.interfaces.ScreeningService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -69,25 +70,22 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     public boolean checkHasBreakPeriod(LocalDateTime beginScreening, Movie movie, String roomName) {
-
         List<Screening> screeningList = screeningRepository.findAll();
-        boolean hasOverlap = false;
-        boolean hasBreakPeriod = false;
-        LocalDateTime endScreening = beginScreening.plusMinutes(movie.getLengthInMinutes());
+        LocalDateTime endScreening = beginScreening.plusMinutes(movie.getLengthInMinutes() + 10);
         for (var screening : screeningList) {
-
             int currentLengthInMinutes = movieRepository.findByMovieTitle(
                     screening.getMovieTitle()).get().getLengthInMinutes();
             LocalDateTime iteratorBeginDate = screening.getBeginScreening();
             LocalDateTime iteratorEndDate = iteratorBeginDate.plusMinutes(currentLengthInMinutes);
-            if ((beginScreening.plusMinutes(10).isAfter(iteratorEndDate)
-                    || endScreening.plusMinutes(10).isBefore(iteratorBeginDate))
-                    && beginScreening.isAfter(iteratorEndDate)) {
+            if (beginScreening.isAfter(iteratorEndDate)
+                    && beginScreening.minusMinutes(10).isBefore(iteratorEndDate)
+                    && screening.getRoomName().equals(roomName)) {
                 return true;
             }
         }
         return false;
     }
+
 
     @Override
     public String deleteScreening(String movieTitle, String roomName, LocalDateTime beginScreening) {

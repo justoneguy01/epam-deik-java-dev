@@ -1,6 +1,6 @@
-package com.epam.training.ticketservice.repository;
+package com.epam.training.ticketservice.model.repository;
 
-import com.epam.training.ticketservice.model.User;
+import com.epam.training.ticketservice.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;

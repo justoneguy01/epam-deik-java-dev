@@ -1,7 +1,8 @@
-package com.epam.training.ticketservice.service;
+package com.epam.training.ticketservice.service.implementation;
 
-import com.epam.training.ticketservice.model.User;
-import com.epam.training.ticketservice.repository.UserRepository;
+import com.epam.training.ticketservice.model.entity.User;
+import com.epam.training.ticketservice.model.repository.UserRepository;
+import com.epam.training.ticketservice.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Optional;

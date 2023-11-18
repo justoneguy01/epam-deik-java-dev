@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.model;
+package com.epam.training.ticketservice.model.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,29 +8,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Movie")
+@Table(name = "Screening")
 @Data
 @NoArgsConstructor
-public class Movie {
-
+public class Screening {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(unique = true)
+    @Column
     private String movieTitle;
-    private String genre;
-    private int lengthInMinutes;
+    private String roomName;
+    private LocalDateTime beginScreening;
 
-    public Movie(String movieTitle, String genre, int lengthInMinutes) {
+    public Screening(String movieTitle, String roomName, LocalDateTime beginScreening) {
         this.movieTitle = movieTitle;
-        this.genre = genre;
-        this.lengthInMinutes = lengthInMinutes;
-    }
-
-    @Override
-    public String toString() {
-        return  movieTitle + " (" + genre + ", " + lengthInMinutes + " minutes)";
+        this.roomName = roomName;
+        this.beginScreening = beginScreening;
     }
 }

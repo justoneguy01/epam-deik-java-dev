@@ -1,7 +1,7 @@
-package service_test;
-import com.epam.training.ticketservice.model.User;
-import com.epam.training.ticketservice.repository.UserRepository;
-import com.epam.training.ticketservice.service.UserServiceImpl;
+package com.epam.training.ticketservice.service;
+import com.epam.training.ticketservice.model.entity.User;
+import com.epam.training.ticketservice.model.repository.UserRepository;
+import com.epam.training.ticketservice.service.implementation.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;

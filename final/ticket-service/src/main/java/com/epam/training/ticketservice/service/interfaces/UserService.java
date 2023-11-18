@@ -1,6 +1,6 @@
-package com.epam.training.ticketservice.service;
+package com.epam.training.ticketservice.service.interfaces;
 
-import com.epam.training.ticketservice.model.User;
+import com.epam.training.ticketservice.model.entity.User;
 
 public interface UserService {
 

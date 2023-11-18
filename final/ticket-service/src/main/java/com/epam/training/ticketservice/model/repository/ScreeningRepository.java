@@ -1,6 +1,6 @@
-package com.epam.training.ticketservice.repository;
+package com.epam.training.ticketservice.model.repository;
 
-import com.epam.training.ticketservice.model.Screening;
+import com.epam.training.ticketservice.model.entity.Screening;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

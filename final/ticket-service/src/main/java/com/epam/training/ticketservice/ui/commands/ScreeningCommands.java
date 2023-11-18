@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.ui.commands;
 
-import com.epam.training.ticketservice.service.ScreeningServiceImpl;
-import com.epam.training.ticketservice.service.UserServiceImpl;
+import com.epam.training.ticketservice.service.interfaces.ScreeningService;
+import com.epam.training.ticketservice.service.interfaces.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
@@ -13,8 +13,8 @@ import java.time.format.DateTimeFormatter;
 @ShellComponent
 @AllArgsConstructor
 public class ScreeningCommands {
-    private  final UserServiceImpl userService;
-    private  final ScreeningServiceImpl screeningService;
+    private  final UserService userService;
+    private  final ScreeningService screeningService;
 
     @ShellMethodAvailability("isAvailable")
     @ShellMethod(key = "create screening", value = "You can add screening with admin privilege.")

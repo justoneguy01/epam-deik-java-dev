@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.ui.commands;
 
-import com.epam.training.ticketservice.service.UserService;
+import com.epam.training.ticketservice.service.interfaces.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;

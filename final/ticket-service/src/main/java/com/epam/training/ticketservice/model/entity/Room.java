@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.model;
+package com.epam.training.ticketservice.model.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
