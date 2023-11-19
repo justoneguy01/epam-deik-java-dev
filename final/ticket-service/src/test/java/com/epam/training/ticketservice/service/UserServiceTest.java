@@ -1,4 +1,5 @@
 package com.epam.training.ticketservice.service;
+import com.epam.training.ticketservice.model.dto.UserDto;
 import com.epam.training.ticketservice.model.entity.User;
 import com.epam.training.ticketservice.model.repository.UserRepository;
 import com.epam.training.ticketservice.service.implementation.UserServiceImpl;
@@ -6,73 +7,105 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
     private final UserRepository userRepository = mock(UserRepository.class);
     private final UserServiceImpl underTest = new UserServiceImpl(userRepository);
     User ADMIN = new User("admin","admin", User.Role.ADMIN);
+    UserDto AdminDto = new UserDto(ADMIN);
     @Test
-    void signInPrivilegedWithCorrectCredentialsShouldReturnSuccessMessage() {
+    void testSignInPrivilegedWithCorrectCredentialsShouldReturnSuccessMessage() {
+
         //Given
-            when(userRepository.findByUsernameAndPassword(ADMIN.getUsername(), ADMIN.getPassword())).thenReturn(Optional.of(ADMIN));
+        given(userRepository.findByUsername(ADMIN.getUsername())).willReturn(Optional.of(ADMIN));
+
         //When
-        String result = underTest.signInPrivileged(ADMIN.getUsername(), ADMIN.getPassword());
+        when(userRepository.findByUsername(ADMIN.getUsername())).thenReturn(Optional.of(ADMIN));
+        String actual = underTest.signInPrivileged(ADMIN.getUsername(), ADMIN.getPassword());
+
         //Then
-        assertEquals("Login success", result);
-        assertEquals(ADMIN, underTest.getLoggedInUser());
+        assertEquals("Signed in", actual);
+        assertEquals(AdminDto.getUsername(),underTest.getLoggedUser().getUsername());
+
     }
 
     @Test
-    void signInPrivilegedWithIncorrectCredentialsShouldReturnFailureMessage() {
+    void testSignInPrivilegedWithIncorrectCredentialsShouldReturnFailureMessage() {
+
         //Given
-        when(userRepository.findByUsernameAndPassword(ADMIN.getUsername(), ADMIN.getPassword())).thenReturn(Optional.of(ADMIN));
+        given(userRepository.findByUsername(ADMIN.getUsername())).willReturn(Optional.of(ADMIN));
+
         //When
-        String result = underTest.signInPrivileged(ADMIN.getUsername(), "WrongPassword");
+        when(userRepository.findByUsername(ADMIN.getUsername())).thenReturn(Optional.of(ADMIN));
+        String actual = underTest.signInPrivileged("Bob", "WrongPassword");
+
         //Then
-        assertEquals("Login failed due to incorrect credentials", result);
-        assertNull(underTest.getLoggedInUser());
+        assertEquals("Login failed due to incorrect credentials", actual);
+        assertNull(underTest.getLoggedUser());
+
     }
 
     @Test
-    void signOutWhenLoggedInShouldReturnSignedOutMessage() {
+    void testSignOutWhenLoggedIn() {
+
         //Given
-        when(userRepository.findByUsernameAndPassword(ADMIN.getUsername(), ADMIN.getPassword())).thenReturn(Optional.of(ADMIN));
+        given(userRepository.findByUsername(ADMIN.getUsername())).willReturn(Optional.of(ADMIN));
+
         //When
+        when(userRepository.findByUsername(ADMIN.getUsername())).thenReturn(Optional.of(ADMIN));
         underTest.signInPrivileged(ADMIN.getUsername(), ADMIN.getPassword());
+        String actual = underTest.signOut();
+
         //Then
-        String result = underTest.signOut();
-        assertEquals("Signed out", result);
-        assertNull(underTest.getLoggedInUser());
+        assertEquals("Signed out", actual);
+        assertNull(underTest.getLoggedUser());
+
     }
 
     @Test
-    void signOutWhenNotLoggedInShouldReturnNotSignedInMessage() {
-        //Given
-        //When
-        String result = underTest.signOut();
-        //Then
-        assertEquals("You are not signed in", result);
-        assertNull(underTest.getLoggedInUser());
-    }
+    void testSignOutWhenLoggedOut() {
 
-    @Test
-    void describeWhenLoggedInShouldReturnSignedInMessage() {
         //Given
-        when(userRepository.findByUsernameAndPassword(ADMIN.getUsername(), ADMIN.getPassword())).thenReturn(Optional.of(ADMIN));
+        given(userRepository.findByUsername(ADMIN.getUsername())).willReturn(Optional.of(ADMIN));
+
         //When
+        when(userRepository.findByUsername(ADMIN.getUsername())).thenReturn(Optional.of(ADMIN));
+        String actual = underTest.signOut();
+
+        //Then
+        assertEquals("You are not signed in", actual);
+        assertNull(underTest.getLoggedUser());
+
+    }
+    @Test
+    void testDescribeWhenLoggedInShouldReturnSignedInMessage() {
+
+        //Given
+        given(userRepository.findByUsername(ADMIN.getUsername())).willReturn(Optional.of(ADMIN));
+
+        //When
+        when(userRepository.findByUsername(ADMIN.getUsername())).thenReturn(Optional.of(ADMIN));
         underTest.signInPrivileged(ADMIN.getUsername(), ADMIN.getPassword());
         String result = underTest.describe();
+
         //Then
         assertEquals("Signed in with privileged account 'admin'", result);
     }
 
     @Test
-    void describeWhenNotLoggedInShouldReturnNotSignedInMessage() {
+    void testDescribeWhenNotLoggedInShouldReturnNotSignedInMessage() {
+
         //Given
+
         //When
+
         String result = underTest.describe();
+
         //Then
         assertEquals("You are not signed in", result);
+
     }
+
 }

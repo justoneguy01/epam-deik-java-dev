@@ -36,10 +36,8 @@ public class ScreeningCommands {
     }
 
     private Availability isAvailable() {
-        if (userService.getLoggedInUser() != null) {
-            return Availability.available();
-        } else {
-            return  Availability.unavailable("You need to sign in as admin");
-        }
+        return userService.getLoggedUser().getUsername() == "admin"
+                ? Availability.available()
+                : Availability.unavailable("You are not authorized");
     }
 }

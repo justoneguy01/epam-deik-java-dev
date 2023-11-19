@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.service.implementation;
 
+import com.epam.training.ticketservice.model.dto.UserDto;
 import com.epam.training.ticketservice.model.entity.User;
 import com.epam.training.ticketservice.model.repository.UserRepository;
 import com.epam.training.ticketservice.service.interfaces.UserService;
@@ -12,26 +13,28 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private User loggedInUser = null;
+    private UserDto loggedInUser = null;
 
     @Override
     public String signInPrivileged(String username, String password) {
-        Optional<User> adminUser = userRepository.findByUsernameAndPassword(username, password);
-        if (adminUser.isEmpty()) {
-            return "Login failed due to incorrect credentials";
+
+        Optional<User> adminUser = userRepository.findByUsername(username);
+        if (adminUser.isPresent() && adminUser.get().getUsername().equals(password)) {
+            loggedInUser = new UserDto(adminUser.get());
+            return "Signed in";
         } else {
-            loggedInUser = adminUser.get();
-            return "Login success";
+            return "Login failed due to incorrect credentials";
         }
     }
 
     @Override
     public String signOut() {
-        if (loggedInUser == null) {
-            return "You are not signed in";
-        } else {
+        if (loggedInUser != null) {
+            String user = loggedInUser.getUsername();
             loggedInUser = null;
             return "Signed out";
+        } else {
+            return "You are not signed in";
         }
     }
 
@@ -44,7 +47,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User getLoggedInUser() {
+    public UserDto getLoggedUser() {
         return loggedInUser;
     }
 }
