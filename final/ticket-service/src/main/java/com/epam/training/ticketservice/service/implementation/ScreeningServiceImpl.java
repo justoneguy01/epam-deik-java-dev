@@ -71,14 +71,16 @@ public class ScreeningServiceImpl implements ScreeningService {
 
     public boolean checkHasBreakPeriod(LocalDateTime beginScreening, Movie movie, String roomName) {
         List<Screening> screeningList = screeningRepository.findAll();
-        LocalDateTime endScreening = beginScreening.plusMinutes(movie.getLengthInMinutes() + 10);
+        LocalDateTime endScreening = beginScreening.plusMinutes(movie.getLengthInMinutes());
         for (var screening : screeningList) {
             int currentLengthInMinutes = movieRepository.findByMovieTitle(
                     screening.getMovieTitle()).get().getLengthInMinutes();
             LocalDateTime iteratorBeginDate = screening.getBeginScreening();
             LocalDateTime iteratorEndDate = iteratorBeginDate.plusMinutes(currentLengthInMinutes);
-            if (beginScreening.isAfter(iteratorEndDate)
-                    && beginScreening.minusMinutes(10).isBefore(iteratorEndDate)
+            if ((((beginScreening.isBefore(iteratorBeginDate)
+                    && (!endScreening.isBefore(iteratorBeginDate.minusMinutes(10)))))
+                    || (endScreening.isAfter(iteratorEndDate)
+                    && !beginScreening.isAfter(iteratorEndDate.plusMinutes(10))))
                     && screening.getRoomName().equals(roomName)) {
                 return true;
             }

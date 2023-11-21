@@ -134,6 +134,23 @@ public class ScreeningServiceTest {
         // Then
         assertFalse(actual, "Screening successfully created");
     }
+    @Test
+    void testCheckHasBreakPeriodShouldReturnFalse2() {
+        // Given
+        Screening testScreening = new Screening("Star Wars", "Leonardo DiCaprio", LocalDateTime.parse("2023-11-15 15:00", formatter));
+        Movie movie = new Movie("Star Wars", "Sci-fi", 60);
+        List<Screening> screenings = List.of(SCREENING);
+        given(movieRepository.findByMovieTitle(MOVIE.getMovieTitle())).willReturn(Optional.of(MOVIE));
+        given(roomRepository.findByRoomName(ROOM.getRoomName())).willReturn(Optional.of(ROOM));
+        given(screeningRepository.findByMovieTitleAndRoomNameAndBeginScreening(MOVIE.getMovieTitle(), ROOM.getRoomName(), SCREENING.getBeginScreening())).willReturn(Optional.of(SCREENING));
+
+        // When
+        when(screeningRepository.findAll()).thenReturn(screenings);
+        boolean actual = underTest.checkHasBreakPeriod(testScreening.getBeginScreening(), movie, testScreening.getRoomName());
+
+        // Then
+        assertTrue(actual, "Screening successfully created");
+    }
 
 
     @Test

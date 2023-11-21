@@ -114,7 +114,7 @@
                                 <exclude>com/epam/training/ticketservice/model/**</exclude>
                                 <exclude>com/epam/training/ticketservice/repository/**</exclude>
                                 <exclude>com/epam/training/ticketservice/ui/configuration/**</exclude>
-                                <exclude>com/epam/training/ticketservice/Application.java</exclude>
+                                <exclude>com/epam/training/ticketservice/Application*</exclude>
                             </excludes>
                             <rules>
                                 <rule>
