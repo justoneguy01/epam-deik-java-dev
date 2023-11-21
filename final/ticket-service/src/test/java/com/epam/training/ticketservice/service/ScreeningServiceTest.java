@@ -135,7 +135,7 @@ public class ScreeningServiceTest {
         assertFalse(actual, "Screening successfully created");
     }
     @Test
-    void testCheckHasBreakPeriodShouldReturnFalse2() {
+    void testCheckHasBreakPeriodShouldReturnTrue2() {
         // Given
         Screening testScreening = new Screening("Star Wars", "Leonardo DiCaprio", LocalDateTime.parse("2023-11-15 15:00", formatter));
         Movie movie = new Movie("Star Wars", "Sci-fi", 60);
