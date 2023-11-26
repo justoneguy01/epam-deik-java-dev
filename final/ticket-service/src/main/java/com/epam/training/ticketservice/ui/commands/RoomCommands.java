@@ -1,6 +1,5 @@
 package com.epam.training.ticketservice.ui.commands;
 
-import com.epam.training.ticketservice.model.entity.Room;
 import com.epam.training.ticketservice.service.interfaces.RoomService;
 import com.epam.training.ticketservice.service.interfaces.UserService;
 import lombok.AllArgsConstructor;

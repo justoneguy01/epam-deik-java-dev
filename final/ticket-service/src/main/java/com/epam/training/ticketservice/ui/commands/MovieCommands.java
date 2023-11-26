@@ -1,6 +1,5 @@
 package com.epam.training.ticketservice.ui.commands;
 
-import com.epam.training.ticketservice.model.entity.Movie;
 import com.epam.training.ticketservice.service.interfaces.MovieService;
 import com.epam.training.ticketservice.service.interfaces.UserService;
 import lombok.AllArgsConstructor;
