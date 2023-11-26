@@ -1,6 +1,5 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.model.entity.Movie;
 import com.epam.training.ticketservice.model.entity.Room;
 import com.epam.training.ticketservice.model.repository.RoomRepository;
 import com.epam.training.ticketservice.service.implementation.RoomServiceImpl;
