@@ -54,14 +54,18 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> listRooms() {
+    public String listRooms() {
 
         List<Room> rooms = roomRepository.findAll();
 
         if (rooms.isEmpty()) {
-            return rooms;
+            return "There are no rooms at the moment";
         } else {
-            return rooms;
+            String roomString = "";
+            for (Room room : rooms) {
+                roomString += room.toString() + "\n";
+            }
+            return roomString;
         }
     }
 }

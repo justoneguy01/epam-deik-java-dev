@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.model.entity.Movie;
 import com.epam.training.ticketservice.model.entity.Room;
 import com.epam.training.ticketservice.model.repository.RoomRepository;
 import com.epam.training.ticketservice.service.implementation.RoomServiceImpl;
@@ -17,6 +18,7 @@ public class RoomServiceTest {
     private final RoomRepository roomRepository = mock(RoomRepository.class);
     private final RoomServiceImpl underTest = new RoomServiceImpl(roomRepository);
     private Room ROOM = new Room("Leonardo DiCaprio", 10,10);
+    private Room ROOM2 = new Room("Pedersoli", 5,5);
     @Test
     void testCreateRoomWhenRoomIsNotExist() {
         //Given
@@ -78,12 +80,17 @@ public class RoomServiceTest {
     @Test
     void testListRoomsWhenRoomsAreAlreadyExist() {
         // Given
-        given(roomRepository.findAll()).willReturn(List.of(ROOM));
+        given(roomRepository.findByRoomName(ROOM.getRoomName())).willReturn(Optional.of(ROOM));
+        given(roomRepository.findByRoomName(ROOM2.getRoomName())).willReturn(Optional.of(ROOM2));
+        List<Room> rooms = List.of(ROOM, ROOM2);
+        given(roomRepository.findAll()).willReturn(rooms);
+
         // When
-        List<Room> actual = underTest.listRooms();
+        String actual = underTest.listRooms();
+        String expected = ROOM.toString() + "\n" + ROOM2.toString() + "\n";
+
         // Then
-        assertEquals(List.of(ROOM), actual);
-        verify(roomRepository).findAll();
+        assertEquals(expected, actual);
 
     }
 
@@ -91,9 +98,10 @@ public class RoomServiceTest {
     void testListRoomsWhenRoomsAreNotAlreadyExist() {
         // Given
         // When
-        List<Room> result = underTest.listRooms();
+        String actual = underTest.listRooms();
+        String expected = "There are no rooms at the moment";
         // Then
-        assertTrue(result.isEmpty());
+        assertEquals(expected, actual);
         verify(roomRepository).findAll();
     }
 }

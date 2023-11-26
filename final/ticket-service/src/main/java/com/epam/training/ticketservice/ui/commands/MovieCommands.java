@@ -8,7 +8,6 @@ import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
-import java.util.List;
 
 @ShellComponent
 @AllArgsConstructor
@@ -37,20 +36,11 @@ public class MovieCommands {
 
     @ShellMethod(key = "list movies", value = "You can list movies.")
     public String listMovies() {
-        List<Movie> movies = movieService.listMovies();
-        if (movies.isEmpty()) {
-            return "There are no movies at the moment";
-        } else {
-            String movieString = "";
-            for (Movie movie : movies) {
-                movieString += movie.toString() + "\n";
-            }
-            return movieString;
-        }
+        return movieService.listMovies();
     }
 
     private Availability isAvailable() {
-        return userService.getLoggedUser().getUsername() == "admin"
+        return userService.getLoggedUser().getUsername().equals("admin")
                 ? Availability.available()
                 : Availability.unavailable("You are not authorized");
     }

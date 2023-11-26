@@ -58,17 +58,18 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> listMovies() {
+    public String listMovies() {
 
         List<Movie> movies = movieRepository.findAll();
 
         if (movies.isEmpty()) {
-
-            return movies;
-
+            return "There are no movies at the moment";
         } else {
-            return movies;
-
+            String movieString = "";
+            for (Movie movie : movies) {
+                movieString += movie.toString() + "\n";
+            }
+            return movieString;
         }
 
     }

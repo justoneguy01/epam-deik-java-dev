@@ -11,5 +11,5 @@ public interface RoomService {
 
     String deleteRoom(String roomName);
 
-    List<Room> listRooms();
+    String listRooms();
 }

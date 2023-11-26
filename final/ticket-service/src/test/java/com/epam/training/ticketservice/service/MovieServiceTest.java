@@ -1,10 +1,14 @@
 package com.epam.training.ticketservice.service;
 
 import com.epam.training.ticketservice.model.entity.Movie;
+import com.epam.training.ticketservice.model.entity.Room;
+import com.epam.training.ticketservice.model.entity.Screening;
 import com.epam.training.ticketservice.model.repository.MovieRepository;
 import com.epam.training.ticketservice.service.implementation.MovieServiceImpl;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +20,8 @@ public class MovieServiceTest {
     private final MovieRepository movieRepository = mock(MovieRepository.class);
     private final MovieServiceImpl underTest = new MovieServiceImpl(movieRepository);
     private Movie MOVIE = new Movie("Star Wars", "Sci-fi",180);
+
+    private Movie MOVIE2 = new Movie("Inception", "Heist", 60);
 
     @Test
     void testCreateMovieWhenMovieIsNotExist() {
@@ -77,13 +83,19 @@ public class MovieServiceTest {
 
     @Test
     void testListMovieWhenMoviesAreAlreadyExist() {
+
         // Given
-        given(movieRepository.findAll()).willReturn(List.of(MOVIE));
+        given(movieRepository.findByMovieTitle(MOVIE.getMovieTitle())).willReturn(Optional.of(MOVIE));
+        given(movieRepository.findByMovieTitle(MOVIE2.getMovieTitle())).willReturn(Optional.of(MOVIE2));
+        List<Movie> movies = List.of(MOVIE, MOVIE2);
+        given(movieRepository.findAll()).willReturn(movies);
+
         // When
-        List<Movie> actual = underTest.listMovies();
+        String actual = underTest.listMovies();
+        String expected = MOVIE.toString() + "\n" + MOVIE2.toString() + "\n";
+
         // Then
-        assertEquals(List.of(MOVIE), actual);
-        verify(movieRepository).findAll();
+        assertEquals(expected, actual);
 
     }
 
@@ -91,9 +103,10 @@ public class MovieServiceTest {
     void testListMoviesWhenMoviesAreNotAlreadyExist() {
         // Given
         // When
-        List<Movie> result = underTest.listMovies();
+        String actual = underTest.listMovies();
+        String expected = "There are no movies at the moment";
         // Then
-        assertTrue(result.isEmpty());
+        assertEquals(expected, actual);
         verify(movieRepository).findAll();
     }
 }

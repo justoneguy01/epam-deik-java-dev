@@ -11,5 +11,5 @@ public interface MovieService {
 
     String deleteMovie(String movieTitle);
 
-    List<Movie> listMovies();
+    String listMovies();
 }

@@ -36,7 +36,7 @@ public class ScreeningCommands {
     }
 
     private Availability isAvailable() {
-        return userService.getLoggedUser().getUsername() == "admin"
+        return userService.getLoggedUser().getUsername().equals("admin")
                 ? Availability.available()
                 : Availability.unavailable("You are not authorized");
     }

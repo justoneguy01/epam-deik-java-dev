@@ -8,7 +8,6 @@ import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
-import java.util.List;
 
 @ShellComponent
 @AllArgsConstructor
@@ -40,20 +39,11 @@ public class RoomCommands {
 
     @ShellMethod(key = "list rooms", value = "You can list rooms.")
     public String listRooms() {
-        List<Room> rooms = roomService.listRooms();
-        if (rooms.isEmpty()) {
-            return "There are no rooms at the moment";
-        } else {
-            String roomString = "";
-            for (Room room : rooms) {
-                roomString += room.toString() + "\n";
-            }
-            return roomString;
-        }
+        return roomService.listRooms();
     }
 
     private Availability isAvailable() {
-        return userService.getLoggedUser().getUsername() == "admin"
+        return userService.getLoggedUser().getUsername().equals("admin")
                 ? Availability.available()
                 : Availability.unavailable("You are not authorized");
     }
